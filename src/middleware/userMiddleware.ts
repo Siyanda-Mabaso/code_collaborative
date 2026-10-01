@@ -25,15 +25,6 @@ export const protect = async (
       const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
       console.log(decoded, "decoded token");
 
-      //find user in token
-    //   const user: User | null = await findUserByEmail(decoded.email);
-    //   req.user = user || undefined;
-
-    //   if (!req.user) {
-    //     return res
-    //       .status(401)
-    //       .json({ message: "NOT authorize, user not found" });
-    //   }
       return next();
       //we failed to retrive the user
     } catch (error) {
