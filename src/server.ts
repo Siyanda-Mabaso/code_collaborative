@@ -1,7 +1,8 @@
 import express  from "express";
 import dotenv from "dotenv"
-import { testDbConnection } from "./confing/database";
+import { dbCheckTables } from "./confing/database";
 import userRoutes from "./routes/userRoutes"
+
 
 dotenv.config()
 
@@ -11,7 +12,8 @@ const PORT = process.env.PORT || 3000
 app.use(express.json());
 
 const startServer = async ()=>{
-    await testDbConnection()
+    await dbCheckTables()
+   
 
     app.use("/api/users",userRoutes)
     app.listen(PORT,()=>{
