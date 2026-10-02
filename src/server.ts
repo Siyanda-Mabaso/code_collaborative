@@ -15,7 +15,7 @@ const startServer = async ()=>{
     await dbCheckTables()
    
 
-    app.use("/api/users",userRoutes)
+    app.use("/api",userRoutes)
     app.listen(PORT,()=>{
         console.log(`Server is running on http://localhost:${PORT}`);
     });
