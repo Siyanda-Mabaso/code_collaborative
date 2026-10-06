@@ -1,9 +1,10 @@
 import { Request, Response, NextFunction } from "express";
-import jwt, { JwtPayload } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
+import { findUserByEmail } from "../services/userServices";
+import { User } from "../types/user.types";
 
 
-
-interface jwtPayload {
+interface JwtPayload {
   userId: number;
   email: string;
 }
@@ -24,6 +25,13 @@ export const protect = async (
       token = req.headers.authorization.split("")[1];
       const decoded = jwt.verify(token, process.env.JWT_SECRET!) as JwtPayload;
       console.log(decoded, "decoded token");
+
+      const user:User | null = await findUserByEmail(decoded.email);
+      req.user = user || undefined
+
+      if(!req.user){
+        return res.status (401).json({message:"Not authorized, user not found"});
+      }
 
       return next();
       //we failed to retrive the user
